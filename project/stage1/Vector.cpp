@@ -43,10 +43,12 @@ int Vector::length() const{
   return length;
 }
 void Vector::print() const{
+  cout << '(';
   for (int i = 0; i < _dim; ++i) {
-    cout << '|' << setw(3) << setfill(' ')
-      << _vector[i] << "  |" << endl;
+    cout << _vector[i];
+    if (i != _dim - 1) cout << ", ";
   }
+  cout << ")\n";
 }
 Vector Vector::operator+(const Vector& other) const{
   Vector ans(_dim);

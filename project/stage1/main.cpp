@@ -55,11 +55,11 @@ int main() {
   Vector vec;
   int C_2D_array2[3] = {1, 2, 3};
   //method #1
-  cout << "vec is " << endl;
+  cout << "vec is ";
   vec.set(C_2D_array2, 3);
   vec.print();
   //mrthod #2
-  cout << "vec is " << endl;
+  cout << "vec is ";
   vec.set_one(0, 0);
   vec.print();
   cout << "after set index 0 to 0" << endl;
@@ -68,15 +68,15 @@ int main() {
   //method #4
   cout << "The length of vec is " << vec.length() << endl;
   //method #5
-  cout << "vec + vec = " << endl;
-  Vector sum2(vec + vec);
+  cout << "vec + vec = ";
+  Vector sum2 = vec + vec;
   sum2.print();
   //method #6
-  cout << "vec - vec = " << endl;
-  Vector substract2(vec - vec);
+  cout << "vec - vec = ";
+  Vector substract2 = vec - vec;
   substract2.print();
   //method #7
-  cout << "vec * vec = " << endl;
+  cout << "vec * vec = ";
   Vector multiply2(vec * vec);
   multiply2.print();
   return 0;
