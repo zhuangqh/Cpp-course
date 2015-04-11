@@ -1,20 +1,16 @@
 #ifndef VECTOR_H
 #define VECTOR_H
-class Vector {
-private:
-  int _dim;
-  int *_vector;
-  void create(int);
-public:
-  Vector();
-  Vector(const Vector &);
-  ~Vector();
-  explicit Vector(int dim);
-  void set(const int *, int dim);
-  void set_one(int index, int value);
-  int dimension() const;
+#include "Base.h"
+class Vector : public Base {
+ public:
+  Vector() : Base() {}
+  Vector(const Vector &other) : Base(other) {}
+ Vector(int col) : Base(col) {}
+  ~Vector() { clean(); }
+  void set_one(int value, int pos_x, int pos_y);
   int length() const;
   void print() const;
+  int get(int pos_x, int pos_y) const;
   Vector operator+(const Vector&) const;
   Vector operator-(const Vector&) const;
   Vector operator*(const Vector&) const;
