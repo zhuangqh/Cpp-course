@@ -5,8 +5,10 @@ DEBUG = -g
 OP = -Wall -O0
 CXX_FLAGS = $(CC) $(DEBUG) $(OP)
 #List of Targets
-main : Matrix.o Vector.o main.cpp
+main : Base.o Matrix.o Vector.o main.cpp
 	$(CXX_FLAGS)	Matrix.o Vector.o main.cpp -o main
+Base.o: Base.cpp Base.h
+	$(CC) $(CXX)	Base.cpp Base.h
 Matrix.o : Matrix.cpp Matrix.h
 	$(CC) $(CXX)	Matrix.cpp Matrix.h
 Vector.o : Vector.cpp Vector.h

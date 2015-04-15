@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 Base::Base() {
-  create(0, 0);
+  create(0, 1);
 }
 void Base::create(int col, int row) {
   _col = col;
@@ -38,8 +38,8 @@ Base::Base(int col, int row) {
 Base::~Base() {
   clean();
 }
-void Base::set(int **keys, int col, int row) {
-  clean();
+void Base::set(const int **keys, int col, int row) {
+  //if (_data[0]) clean();
   create(col, row);
   for (int i = 0; i < _row; ++i) {
     for (int j = 0; j < _col; ++j) {
@@ -72,27 +72,23 @@ int Base::get(int pos_x, int pos_y) const {
     return 1 << 31;
   }
 }
-bool Base::all(int **keys, int col, int row) const {
-  for (int i = 0; i < row; ++i) {
-    for (int j = 0; j < col; ++j) {
+bool Base::all(int *keys, int length) const {
+    for (int i = 0; i < length; ++i) {
       for (int k = 0; k < _row; ++k) {
         for (int l = 0; l < _col; ++l) {
-          if (_data[k][l] != keys[i][j])
+          if (_data[k][l] != keys[i])
             return false;
         }
       }
     }
-  }
   return true;
 }
-bool Base::any(int **keys, int col, int row) const {
-  for (int i = 0; i < row; ++i) {
-    for (int j = 0; j < col; ++j) {
-      for (int k = 0; k < _row; ++k) {
-        for (int l = 0; l < _col; ++l) {
-          if (_data[k][l] == keys[i][j])
-            return true;
-        }
+bool Base::any(int *keys, int length) const {
+  for (int i = 0; i < length; ++i) {
+    for (int k = 0; k < _row; ++k) {
+      for (int l = 0; l < _col; ++l) {
+        if (_data[k][l] == keys[i])
+          return true;
       }
     }
   }

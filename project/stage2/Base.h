@@ -9,13 +9,13 @@ class Base {
 public:
   Base();
   Base(const Base &);
-  Base(int col, int row = 1);
+  Base(int col, int row);
   ~Base();
-  void set(int **, int col, int row = 1);
+  void set(const int **, int col, int row);
   void set_one(int value, int pos_x, int pos_y);
   int *size() const;
   int get(int pos_x , int pos_y) const;
-  bool all(int **keys, int col, int row = 1) const;
-  bool any(int **keys, int col, int row = 1) const;
+  bool all(int *keys, int length) const;
+  bool any(int *keys, int length) const;
 };
 #endif

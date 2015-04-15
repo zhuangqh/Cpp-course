@@ -53,10 +53,10 @@ int main() {
 
   //show the method of class Vector;
   Vector vec;
-  int C_2D_array2[3] = {1, 2, 3};
+  int C_2D_array2[1][3] = {1, 2, 3};
   //method #1
   cout << "vec is ";
-  vec.set(C_2D_array2, 3);
+  vec.set((const int**)C_2D_array2, 3, 1);
   vec.print();
   //mrthod #2
   cout << "vec is ";
