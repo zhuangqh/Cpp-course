@@ -23,6 +23,7 @@ int main() {
   int *row_col_message = example.size();
   cout << "The row of example is " << row_col_message[0] << endl
     << "The column of example is " << row_col_message[1] << endl;
+  //free the memory
   delete row_col_message;
   //method #5
   cout << "entry of row 1 col 1 is "  << example.get(1, 1) << endl;
@@ -50,6 +51,7 @@ int main() {
   cout << "example * example =" << endl;
   Matrix multiply = example * example;
   multiply.print();
+
 
   //show the method of class Vector;
   Vector vec;
@@ -79,5 +81,15 @@ int main() {
   cout << "vec * vec = ";
   Vector multiply2(vec * vec);
   multiply2.print();
+
+  //show the new method "all" and "any"
+  Base base;
+  base.set((const int **)C_2D_array, 3, 3);
+  //method "all"
+  int check_for_all[3] = {1, 2, 3};
+  cout << (base.all(check_for_all, 3) ? "True\n" : "False\n");
+  //method "any"
+  int check_for_any[3] = {11, 22, 33};
+  cout << (base.any(check_for_any, 3) ? "True\n" : "False\n");
   return 0;
 }

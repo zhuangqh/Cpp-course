@@ -11,6 +11,7 @@ public:
   Base(const Base &);
   Base(int col, int row);
   ~Base();
+  //the common method
   void set(const int **, int col, int row);
   void set_one(int value, int pos_x, int pos_y);
   int *size() const;

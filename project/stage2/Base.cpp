@@ -4,10 +4,12 @@ using namespace std;
 Base::Base() {
   create(0, 1);
 }
+//help to well manage the memory
 void Base::create(int col, int row) {
   _col = col;
   _row = row;
   _data = new int*[_row];
+  _data[0] = NULL;
   for (int i = 0; i < _row; ++i)
     _data[i] = new int[_col];
   for (int i = 0; i < _row; ++i) {
@@ -16,6 +18,7 @@ void Base::create(int col, int row) {
     }
   }
 }
+//help to well manage the memory
 void Base::clean() {
   for (int i = 0; i < _row; ++i)
     delete[]_data[i];
@@ -39,11 +42,11 @@ Base::~Base() {
   clean();
 }
 void Base::set(const int **keys, int col, int row) {
-  //if (_data[0]) clean();
+  if (_data[0]) clean();
   create(col, row);
   for (int i = 0; i < _row; ++i) {
     for (int j = 0; j < _col; ++j) {
-      _data[i][j] = keys[i][j];
+      _data[i][j] = *((int *)keys + i*_col + j);
     }
   }
 }
@@ -73,14 +76,16 @@ int Base::get(int pos_x, int pos_y) const {
   }
 }
 bool Base::all(int *keys, int length) const {
-    for (int i = 0; i < length; ++i) {
-      for (int k = 0; k < _row; ++k) {
-        for (int l = 0; l < _col; ++l) {
-          if (_data[k][l] != keys[i])
-            return false;
-        }
+  for (int i = 0; i < length; ++i) {
+    bool ans = false;
+    for (int k = 0; k < _row; ++k) {
+      for (int l = 0; l < _col; ++l) {
+        if (_data[k][l] == keys[i])
+          ans = true;
       }
     }
+    if (!ans) return false;
+  }
   return true;
 }
 bool Base::any(int *keys, int length) const {

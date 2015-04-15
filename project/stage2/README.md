@@ -1,15 +1,17 @@
-#Project Stage1
+#Project Stage2
 ***
 ### What I have done
-* constructor
-* The general method of set, get, print
+* Design a base class and let 'Matrix' and 'Vector' inherit from it
+* Well managed constructor
+* The general method of 'set', 'get' and 'print'
+* The special method of 'any' and 'all'
 * Operator overloading of +, -, *
 
 ### The organization of my files
-* **Two pairs of .cpp and .h file.The main.cpp shows the method of Class Matrix and Class Vector.**
+* **Three pairs of .cpp and .h file.The main.cpp shows the method of Class Matrix and Class Vector.**
 
 ### Notes
-* Add a member function called 'create' to apply for memory. It can be **reuse** many time.
+* Add two member function called 'create' and 'clean'.Function 'create' is used to apply for memory. Function 'clean' is used to free memory.
 * Add a destructor to well manage the memory. 
 * Change all the member function to const if they needn't to modify the member data.
 

@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <algorithm>
 using namespace std;
+//print the matrix with a good layout
 void Matrix::print() const{
   for (int i = 0; i < _row; ++i) {
     cout << '|';
