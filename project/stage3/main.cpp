@@ -4,15 +4,15 @@
 using namespace std;
 int main() {
   //show the method of class Matrix
-  int C_2D_array[3][3] = {
-    { 1, 2, 3 },
-    { 4, 5, 6 },
-    { 7, 8, 9 }
+  double C_2D_array[3][3] = {
+    { 1.1, 2.3, 3.3 },
+    { 4.5, 5.7, 6.8 },
+    { 7.8, 8.2, 9.3 }
   };
-  Matrix<int> example;
+  Matrix<double> example;
   //method #1
   cout << "example is " << endl;
-  example.set((const int **)C_2D_array, 3, 3);
+  example.set((const double **)C_2D_array, 3, 3);
   example.print();
   //method #2
   cout << "example is " << endl;
@@ -41,21 +41,21 @@ int main() {
   cout << example.min_entry() << endl;
   //method #10
   cout << "example + example =" << endl;
-  Matrix<int> sum = example + example;
+  Matrix<double> sum = example + example;
   sum.print();
   //method #11
   cout << "example - example =" << endl;
-  Matrix<int> substract = example - example;
+  Matrix<double> substract = example - example;
   substract.print();
   //method #12
   cout << "example * example =" << endl;
-  Matrix<int> multiply = example * example;
+  Matrix<double> multiply = example * example;
   multiply.print();
 
 
   //show the method of class Vector;
   Vector<int> vec;
-  int C_2D_array2[1][3] = { 1, 2, 3 };
+  int C_2D_array2[3][1] = { 1, 2, 3 };
   //method #1
   cout << "vec is ";
   vec.set((const int**)C_2D_array2, 3, 1);

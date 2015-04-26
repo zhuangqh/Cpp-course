@@ -2,18 +2,22 @@
 #define MATRIX_H
 #include "Base.h"
 #include <iomanip>
+#include <algorithm>
 template<typename T>
 class Matrix : public Base<T> {
  public:
   Matrix() : Base<T>() {}
   Matrix(const Matrix<T> &other) : Base<T>(other) {}
-  Matrix(int col, int row) : Base<T>(col, row) {}
+  Matrix(int row, int col) : Base<T>(row, col) {}
   ~Matrix() {}
   void print() const;
   Matrix row(int) const;
   Matrix col(int) const;
-  int max_entry() const;
-  int min_entry() const;
+  T max_entry() const;
+  T min_entry() const;
+  Matrix transpose() const;
+  Matrix determinant() const;
+  Matrix inverse() const;
   Matrix operator+(const Matrix<T> &) const;
   Matrix operator-(const Matrix<T> &) const;
   Matrix operator*(const Matrix<T> &) const;
@@ -31,21 +35,21 @@ void Matrix<T>::print() const{
 }
 template<typename T>
 Matrix<T> Matrix<T>::row(int row_num) const{
-  Matrix<T> ans(Base<T>::_col, 1);
+  Matrix<T> ans(1, Base<T>::_col);
   for (int i = 0; i < Base<T>::_col; ++i)
     ans._data[0][i] = Base<T>::_data[row_num][i];
   return ans;
 }
 template<typename T>
 Matrix<T> Matrix<T>::col(int col_num) const{
-  Matrix<T> ans(1, Base<T>::_row);
+  Matrix<T> ans(Base<T>::_row, 1);
   for (int i = 0; i < Base<T>::_row; ++i)
     ans._data[i][0] = Base<T>::_data[i][col_num];
   return ans;
 }
 template<typename T>
-int Matrix<T>::max_entry() const{
-  int max_entry = Base<T>::_data[0][0];
+T Matrix<T>::max_entry() const{
+  T max_entry = Base<T>::_data[0][0];
   for (int i = 0; i < Base<T>::_row; ++i) {
     for (int j = 0; j < Base<T>::_col; ++j) {
       max_entry = max(max_entry, Base<T>::_data[i][j]);
@@ -54,8 +58,8 @@ int Matrix<T>::max_entry() const{
   return max_entry;
 }
 template<typename T>
-int Matrix<T>::min_entry() const{
-  int min_entry = Base<T>::_data[0][0];
+T Matrix<T>::min_entry() const{
+  T min_entry = Base<T>::_data[0][0];
   for (int i = 0; i < Base<T>::_row; ++i) {
     for (int j = 0; j < Base<T>::_col; ++j) {
       min_entry = min(min_entry, Base<T>::_data[i][j]);
@@ -63,6 +67,26 @@ int Matrix<T>::min_entry() const{
   }
   return min_entry;
 }
+template <typename T>
+Matrix<T> Matrix<T>::transpose() const {
+  Matrix<T> ans(Base<T>::_col, Base<T>::_row);
+  for (int i = 0; i < Base<T>::_col; ++i) {
+    for (int j = 0; j < Base<T>::_row; ++j) {
+      ans._data[i][j] = Base<T>::_data[j][i];
+    }
+  }
+  return ans;
+}
+template <typename T>
+Matrix<T> Matrix<T>::determinant() const {
+  for (int i = 0; i < Base<T>::_col; ++i) {
+    for (int j = 0; j < Base<T>::_row; ++j) {
+      if (j == 0 && Base<T>::_data[j])
+    }
+  }
+}
+
+
 template<typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const{
   Matrix<T> ans(Base<T>::_row, Base<T>::_col);

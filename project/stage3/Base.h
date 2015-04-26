@@ -7,28 +7,29 @@ class Base {
  protected:
   T **_data;
   int _col, _row;
-  void create(int col, int row = 1);
+  void create(int row, int col = 1);
   void clean();
  public:
   Base();
   Base(const Base &);
-  Base(int col, int row);
+  Base(int row, int col);
   ~Base();
   //the common method
-  void set(const T **, int col, int row);
-  void set_one(T value, int pos_x, int pos_y);
+  void set(const T **, int row, int col);
+  void set_one(T value, int pos_x, int pos_y = 0);
   int *size() const;
-  T get(int pos_x , int pos_y) const;
+  T get(int pos_x , int pos_y = 0) const;
   bool all(T *keys, int length) const;
   bool any(T *keys, int length) const;
+  T operator()(int row, int col = 0) const;
 };
 template <typename T>
 Base<T>::Base() {
-  create(0, 1);
+  create(1, 1);
 }
 //help to well manage the memory
 template <typename T>
-void Base<T>::create(int col, int row) {
+void Base<T>::create(int row, int col) {
   _col = col;
   _row = row;
   _data = new T*[_row];
@@ -47,13 +48,13 @@ void Base<T>::clean() {
   for (int i = 0; i < _row; ++i)
     delete[]_data[i];
   delete[]_data;
-  _col = 0;
+  _col = 1;
   _row = 1;
   _data = NULL;
 }
 template <typename T>
-Base<T>::Base(const Base &other) {
-  create(other._col, other._row);
+Base<T>::Base(const Base<T> &other) {
+  create(other._row, other._col);
   for (int i = 0; i < _row; ++i) {
     for (int j = 0; j < _col; ++j) {
       _data[i][j] = other._data[i][j];
@@ -61,17 +62,17 @@ Base<T>::Base(const Base &other) {
   }
 }
 template <typename T>
-Base<T>::Base(int col, int row) {
-  create(col, row);
+Base<T>::Base(int row, int col) {
+  create(row, col);
 }
 template <typename T>
 Base<T>::~Base() {
   clean();
 }
 template <typename T>
-void Base<T>::set(const T **keys, int col, int row) {
-  if (_data[0]) clean();
-  create(col, row);
+void Base<T>::set(const T **keys, int row, int col) {
+  //if (_data[0]) clean();
+  create(row, col);
   for (int i = 0; i < _row; ++i) {
     for (int j = 0; j < _col; ++j) {
       _data[i][j] = *((T *)keys + i*_col + j);
@@ -131,5 +132,10 @@ bool Base<T>::any(T *keys, int length) const {
     }
   }
   return false;
+}
+template <typename T>
+T Base<T>::operator()(int row, int col) const {
+  if (row >= 0 && row < _row && col >= 0 && col < _col)
+    return _data[row][col];
 }
 #endif
