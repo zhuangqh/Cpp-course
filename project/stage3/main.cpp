@@ -83,7 +83,7 @@ int main() {
   multiply2.print();
 
   //show the new method "all" and "any"
-  Base<int> base;
+  Matrix<int> base;
   base.set((const int **)C_2D_array, 3, 3);
   //method "all"
   int check_for_all[3] = { 1, 2, 3 };
@@ -91,5 +91,20 @@ int main() {
   //method "any"
   int check_for_any[3] = { 11, 22, 33 };
   cout << (base.any(check_for_any, 3) ? "True\n" : "False\n");
+
+  //show the new method "determinant", "transpose" and "inverse"
+  double C_2D_array3[5][5] = {{1, 1, 1, 1, 1},
+                              {8, 2, 2, 2, 4},
+                              {2, 2, 2, 3, 4},
+                              {0, 6, 0, 5, 6},
+                              {0, 2, 0, 0, 3}};
+  Matrix<double> example2;
+  example2.set((const double **)C_2D_array3, 5, 5);
+  //show the method "determinant"
+  cout << endl << "The determinant of example2 is "
+       << example2.determinant() << endl;
+  //show the method "transpose"
+  cout << "The transpose form of example2 is " << endl;
+  example2.transpose().print();
   return 0;
 }

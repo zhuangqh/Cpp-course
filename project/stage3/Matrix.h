@@ -5,6 +5,10 @@
 #include <algorithm>
 template<typename T>
 class Matrix : public Base<T> {
+ private:
+  T deter;
+  bool swap_row(int );
+  void replace(int dest, int src, T constant);
  public:
   Matrix() : Base<T>() {}
   Matrix(const Matrix<T> &other) : Base<T>(other) {}
@@ -16,12 +20,34 @@ class Matrix : public Base<T> {
   T max_entry() const;
   T min_entry() const;
   Matrix transpose() const;
-  Matrix determinant() const;
-  Matrix inverse() const;
+  T determinant();
+  Matrix inverse();
   Matrix operator+(const Matrix<T> &) const;
   Matrix operator-(const Matrix<T> &) const;
   Matrix operator*(const Matrix<T> &) const;
 };
+template<typename T>
+bool Matrix<T>::swap_row(int dest) {
+  bool is_swaped = false;
+  for (int i = dest + 1; i < Base<T>::_row; ++i) {
+    if (Base<T>::_data[i][dest] != 0) {
+      is_swaped = true;
+      for (int j = dest; j < Base<T>::_col; ++j) {
+        T temp = Base<T>::_data[i][j];
+        Base<T>::_data[i][j] = Base<T>::_data[dest][j];
+        Base<T>::_data[dest][j] = temp;
+      }
+      break;
+    }
+  }
+  return is_swaped;
+}
+template<typename T>
+void Matrix<T>::replace(int dest, int src, T constant) {
+  for (int i = 0; i < Base<T>::_col; ++i) {
+    Base<T>::_data[dest][i] -= constant * Base<T>::_data[src][i];
+  }
+}
 //print the matrix with a good layout
 template<typename T>
 void Matrix<T>::print() const{
@@ -58,7 +84,7 @@ T Matrix<T>::max_entry() const{
   return max_entry;
 }
 template<typename T>
-T Matrix<T>::min_entry() const{
+T Matrix<T>::min_entry() const {
   T min_entry = Base<T>::_data[0][0];
   for (int i = 0; i < Base<T>::_row; ++i) {
     for (int j = 0; j < Base<T>::_col; ++j) {
@@ -78,14 +104,27 @@ Matrix<T> Matrix<T>::transpose() const {
   return ans;
 }
 template <typename T>
-Matrix<T> Matrix<T>::determinant() const {
-  for (int i = 0; i < Base<T>::_col; ++i) {
-    for (int j = 0; j < Base<T>::_row; ++j) {
-      if (j == 0 && Base<T>::_data[j])
+T Matrix<T>::determinant() {
+  Matrix<T> ans(*this);
+  ans.deter = 1;
+  //change the matrix to its echelon form
+  for (int i = 0; i < ans._row - 1; ++i) {
+    if (ans._data[i][i] == 0 && ans.swap_row(i) == false) {
+      continue;
+    }
+    for (int j = i + 1; j < ans._row; ++j) {
+      ans.replace(j, i, ans._data[j][i] / ans._data[i][i]);
     }
   }
+  cout << "The echelon from is " << endl;
+  ans.print();
+  //calculate the determinant
+  for (int i = 0; i < ans._row; ++i) {
+    ans.deter *= ans._data[i][i];
+  }
+  deter = ans.deter;
+  return deter;
 }
-
 
 template<typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const{
