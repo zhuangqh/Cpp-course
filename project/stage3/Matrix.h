@@ -3,11 +3,14 @@
 #include "Base.h"
 #include <iomanip>
 #include <algorithm>
+#include <assert.h>
 template<typename T>
 class Matrix : public Base<T> {
  private:
   T deter;
-  bool swap_row(int );
+  //basic matrix operation
+  int find_pivot_from(int);
+  void swap_row(int , int);
   void replace(int dest, int src, T constant);
  public:
   Matrix() : Base<T>() {}
@@ -26,39 +29,47 @@ class Matrix : public Base<T> {
   Matrix operator-(const Matrix<T> &) const;
   Matrix operator*(const Matrix<T> &) const;
 };
-template<typename T>
-bool Matrix<T>::swap_row(int dest) {
-  bool is_swaped = false;
-  for (int i = dest + 1; i < Base<T>::_row; ++i) {
-    if (Base<T>::_data[i][dest] != 0) {
-      is_swaped = true;
-      for (int j = dest; j < Base<T>::_col; ++j) {
-        T temp = Base<T>::_data[i][j];
-        Base<T>::_data[i][j] = Base<T>::_data[dest][j];
-        Base<T>::_data[dest][j] = temp;
-      }
-      break;
+
+template <typename T>
+int Matrix<T>::find_pivot_from(int index) {
+  for (int i = index; i < Base<T>::_row; ++i) {
+    if (Base<T>::_data[i][index]) {
+      deter *= -1;
+      return i;
     }
   }
-  return is_swaped;
+  return -1;
 }
+
+template <typename T>
+void Matrix<T>::swap_row(int row1, int row2) {
+  if (row1 == row2) return;
+  for (int i = 0; i < Base<T>::_col; ++i) {
+    T temp = Base<T>::_data[row1][i];
+    Base<T>::_data[row1][i] = Base<T>::_data[row2][i];
+    Base<T>::_data[row2][i] = temp;
+  }
+}
+
 template<typename T>
 void Matrix<T>::replace(int dest, int src, T constant) {
   for (int i = 0; i < Base<T>::_col; ++i) {
     Base<T>::_data[dest][i] -= constant * Base<T>::_data[src][i];
   }
 }
+
 //print the matrix with a good layout
 template<typename T>
 void Matrix<T>::print() const{
   for (int i = 0; i < Base<T>::_row; ++i) {
-    cout << '|';
+    cout << "| ";
     for (int j = 0; j < Base<T>::_col; ++j) {
-      cout << setw(4) << setfill(' ') << Base<T>::_data[i][j];
+      cout << setw(6) << setfill(' ') << Base<T>::_data[i][j] << " ";
     }
-    cout << setw(4) << setfill(' ') << '|' << endl;
+    cout << " |" << endl;
   }
 }
+
 template<typename T>
 Matrix<T> Matrix<T>::row(int row_num) const{
   Matrix<T> ans(1, Base<T>::_col);
@@ -66,6 +77,7 @@ Matrix<T> Matrix<T>::row(int row_num) const{
     ans._data[0][i] = Base<T>::_data[row_num][i];
   return ans;
 }
+
 template<typename T>
 Matrix<T> Matrix<T>::col(int col_num) const{
   Matrix<T> ans(Base<T>::_row, 1);
@@ -73,6 +85,7 @@ Matrix<T> Matrix<T>::col(int col_num) const{
     ans._data[i][0] = Base<T>::_data[i][col_num];
   return ans;
 }
+
 template<typename T>
 T Matrix<T>::max_entry() const{
   T max_entry = Base<T>::_data[0][0];
@@ -83,6 +96,7 @@ T Matrix<T>::max_entry() const{
   }
   return max_entry;
 }
+
 template<typename T>
 T Matrix<T>::min_entry() const {
   T min_entry = Base<T>::_data[0][0];
@@ -93,6 +107,7 @@ T Matrix<T>::min_entry() const {
   }
   return min_entry;
 }
+
 template <typename T>
 Matrix<T> Matrix<T>::transpose() const {
   Matrix<T> ans(Base<T>::_col, Base<T>::_row);
@@ -103,21 +118,20 @@ Matrix<T> Matrix<T>::transpose() const {
   }
   return ans;
 }
+
 template <typename T>
 T Matrix<T>::determinant() {
   Matrix<T> ans(*this);
   ans.deter = 1;
-  //change the matrix to its echelon form
+  //reduce the matrix to its echelon form
   for (int i = 0; i < ans._row - 1; ++i) {
-    if (ans._data[i][i] == 0 && ans.swap_row(i) == false) {
-      continue;
-    }
+    int pivot = find_pivot_from(i);
+    assert(pivot >= 0);
+    swap_row(i, pivot);
     for (int j = i + 1; j < ans._row; ++j) {
       ans.replace(j, i, ans._data[j][i] / ans._data[i][i]);
     }
   }
-  cout << "The echelon from is " << endl;
-  ans.print();
   //calculate the determinant
   for (int i = 0; i < ans._row; ++i) {
     ans.deter *= ans._data[i][i];
@@ -126,7 +140,47 @@ T Matrix<T>::determinant() {
   return deter;
 }
 
-template<typename T>
+template <typename T>
+Matrix<T> Matrix<T>::inverse() {
+  assert(Base<T>::_row == Base<T>::_col);
+  Matrix<T> ans(Base<T>::_row, Base<T>::_col);
+  Matrix<T> src(*this);
+  //create a identity matrix
+  for (int i = 0; i < ans._row; ++i)
+    ans._data[i][i] = 1;
+  //using Gaussian Elimination to get the inverse of matrix
+  //1. reduce the matrix 'src' to echelon form
+  for (int i = 0; i < src._row; ++i) {
+    int pivot = src.find_pivot_from(i);
+    assert(pivot >= 0);
+    src.swap_row(i, pivot);
+    ans.swap_row(i, pivot);
+    for (int j = i + 1; j < ans._row; ++j) {
+      T constant = src._data[j][i] / src._data[i][i];
+      src.replace(j, i, constant);
+      ans.replace(j, i, constant);
+    }
+  }
+  //2. reduce the matrix 'src' to identity form
+  for (int i = Base<T>::_row - 1; i >= 0; --i) {
+    for (int j = i; j >= 0; --j) {
+      if (j == i) {
+        for (int k = 0; k < ans._col; ++k) {
+          ans._data[i][k] /= src._data[i][i];
+          src._data[i][i] = 1;
+        }
+      } else {
+        T constant = src._data[j][i] / src._data[i][i];
+        src.replace(j, i, constant);
+        ans.replace(j, i, constant);
+      }
+    }
+  }
+  return ans;
+}
+
+
+template <typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const{
   Matrix<T> ans(Base<T>::_row, Base<T>::_col);
   for (int i = 0; i < Base<T>::_row; ++i) {
@@ -136,7 +190,8 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const{
   }
   return ans;
 }
-template<typename T>
+
+template <typename T>
 Matrix<T> Matrix<T>::operator-(const Matrix<T> &other) const{
   Matrix ans(Base<T>::_row, Base<T>::_col);
   for (int i = 0; i < Base<T>::_row; ++i) {
@@ -146,7 +201,8 @@ Matrix<T> Matrix<T>::operator-(const Matrix<T> &other) const{
   }
   return ans;
 }
-template<typename T>
+
+template <typename T>
 Matrix<T> Matrix<T>::operator*(const Matrix<T> &other) const{
   Matrix<T> ans(Base<T>::_row, other._col);
   for (int i = 0; i < Base<T>::_row; ++i) {

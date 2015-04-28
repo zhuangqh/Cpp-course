@@ -19,14 +19,17 @@ class Base {
   void set_one(T value, int pos_x, int pos_y = 0);
   int *size() const;
   T get(int pos_x , int pos_y = 0) const;
+  virtual void print() const = 0;
   bool all(T *keys, int length) const;
   bool any(T *keys, int length) const;
   T operator()(int row, int col = 0) const;
 };
+
 template <typename T>
 Base<T>::Base() {
   create(1, 1);
 }
+
 //help to well manage the memory
 template <typename T>
 void Base<T>::create(int row, int col) {
@@ -42,6 +45,7 @@ void Base<T>::create(int row, int col) {
     }
   }
 }
+
 //help to well manage the memory
 template <typename T>
 void Base<T>::clean() {
@@ -52,6 +56,7 @@ void Base<T>::clean() {
   _row = 1;
   _data = NULL;
 }
+
 template <typename T>
 Base<T>::Base(const Base<T> &other) {
   create(other._row, other._col);
@@ -61,14 +66,17 @@ Base<T>::Base(const Base<T> &other) {
     }
   }
 }
+
 template <typename T>
 Base<T>::Base(int row, int col) {
   create(row, col);
 }
+
 template <typename T>
 Base<T>::~Base() {
   clean();
 }
+
 template <typename T>
 void Base<T>::set(const T **keys, int row, int col) {
   //if (_data[0]) clean();
@@ -79,11 +87,13 @@ void Base<T>::set(const T **keys, int row, int col) {
     }
   }
 }
+
 template <typename T>
 void Base<T>::set_one(T value, int pos_x, int pos_y) {
   if (pos_x < _row && pos_y < _col)
     _data[pos_x][pos_y] = value;
 }
+
 template <typename T>
 int *Base<T>::size() const {
   int *ans;
@@ -98,6 +108,7 @@ int *Base<T>::size() const {
     return ans;
   }
 }
+
 template <typename T>
 T Base<T>::get(int pos_x, int pos_y) const {
   if (pos_x < _row && pos_x >= 0 && pos_y < _col && pos_y >= 0) {
@@ -107,6 +118,7 @@ T Base<T>::get(int pos_x, int pos_y) const {
     return 1 << 31;
   }
 }
+
 template <typename T>
 bool Base<T>::all(T *keys, int length) const {
   for (int i = 0; i < length; ++i) {
@@ -121,6 +133,7 @@ bool Base<T>::all(T *keys, int length) const {
   }
   return true;
 }
+
 template <typename T>
 bool Base<T>::any(T *keys, int length) const {
   for (int i = 0; i < length; ++i) {
@@ -133,6 +146,7 @@ bool Base<T>::any(T *keys, int length) const {
   }
   return false;
 }
+
 template <typename T>
 T Base<T>::operator()(int row, int col) const {
   if (row >= 0 && row < _row && col >= 0 && col < _col)

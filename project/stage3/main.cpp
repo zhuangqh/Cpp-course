@@ -1,9 +1,13 @@
 #include "Matrix.h"
 #include "Vector.h"
 #include <iostream>
+#include <assert.h>
 using namespace std;
 int main() {
   //show the method of class Matrix
+  cout << "**************************\n\n"
+       << "The base methods of Matrix\n\n"
+       << "**************************\n";
   double C_2D_array[3][3] = {
     { 1.1, 2.3, 3.3 },
     { 4.5, 5.7, 6.8 },
@@ -26,7 +30,7 @@ int main() {
   //free the memory
   delete row_col_message;
   //method #5
-  cout << "entry of row 1 col 1 is " << example.get(1, 1) << endl;
+  cout << "Entry of row 1 col 1 is " << example.get(1, 1) << endl;
   //method #6
   cout << "row 1 is " << endl;
   example.row(1).print();
@@ -54,6 +58,9 @@ int main() {
 
 
   //show the method of class Vector;
+  cout << "\n**************************\n\n"
+       << "The base methods of Vector\n\n"
+       << "**************************\n";
   Vector<int> vec;
   int C_2D_array2[3][1] = { 1, 2, 3 };
   //method #1
@@ -93,18 +100,30 @@ int main() {
   cout << (base.any(check_for_any, 3) ? "True\n" : "False\n");
 
   //show the new method "determinant", "transpose" and "inverse"
-  double C_2D_array3[5][5] = {{1, 1, 1, 1, 1},
-                              {8, 2, 2, 2, 4},
-                              {2, 2, 2, 3, 4},
-                              {0, 6, 0, 5, 6},
-                              {0, 2, 0, 0, 3}};
+  cout << "*************************\n\n"
+       << "Matrix's advanced methods\n\n"
+       << "*************************\n";
+  double C_2D_array3[5][5] = {{1, 0, 1, 1, 1},
+                              {0, 1, 0, 0, 0},
+                              {2, 0, 3, 5, 2},
+                              {0, 4, 0, 1, 4},
+                              {0, 2, 0, 0, 1}};
   Matrix<double> example2;
   example2.set((const double **)C_2D_array3, 5, 5);
+  cout << "Matrix example2 is " << endl;
+  example2.print();
+  //show the method "inverse"
+  cout << "The inverse of 'example2' is " << endl;
+  example2.inverse().print();
+  cout << endl << "example2 * example2-1 is " << endl;
+  (example2 * example2.inverse()).print();
   //show the method "determinant"
-  cout << endl << "The determinant of example2 is "
+  cout << "The determinant of example2 is "
        << example2.determinant() << endl;
   //show the method "transpose"
   cout << "The transpose form of example2 is " << endl;
   example2.transpose().print();
+  //show the overload of operator ()
+  cout << "example2(2, 2) is " << example2(2, 2) << endl;
   return 0;
 }

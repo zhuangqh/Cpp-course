@@ -15,6 +15,7 @@ class Vector : public Base<T> {
   Vector<T> operator-(const Vector<T>&) const;
   Vector<T> operator*(const Vector<T>&) const;
 };
+
 template<typename T>
 T Vector<T>::length() const{
   T length = 0;
@@ -23,6 +24,7 @@ T Vector<T>::length() const{
   length = sqrt(length);
   return length;
 }
+
 template<typename T>
 void Vector<T>::print() const{
   cout << '(';
@@ -32,10 +34,12 @@ void Vector<T>::print() const{
   }
   cout << ")\n";
 }
+
 template<typename T>
 int Vector<T>::dimension() const {
   return Base<T>::_row;
 }
+
 template<typename T>
 Vector<T> Vector<T>::operator+(const Vector<T>& other) const{
   Vector ans(Base<T>::_row);
@@ -43,6 +47,7 @@ Vector<T> Vector<T>::operator+(const Vector<T>& other) const{
     ans._data[i][0] = other._data[i][0] + Base<T>::_data[i][0];
   return ans;
 }
+
 template<typename T>
 Vector<T> Vector<T>::operator-(const Vector<T>& other) const {
   Vector<T> ans(Base<T>::_row);
@@ -50,6 +55,7 @@ Vector<T> Vector<T>::operator-(const Vector<T>& other) const {
     ans._data[i][0] = other._data[i][0] - Base<T>::_data[i][0];
   return ans;
 }
+
 template<typename T>
 Vector<T> Vector<T>::operator*(const Vector<T>& other) const {
   Vector<T> ans(1);
