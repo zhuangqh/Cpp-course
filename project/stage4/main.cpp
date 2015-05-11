@@ -3,7 +3,28 @@
 #include <iostream>
 #include <assert.h>
 using namespace std;
+void BaseMethodOfMatrix();
+void BaseMethodOfVector();
+void MatrixAdvancedMethod();
+void StreamOverloading();
 int main() {
+  cout << "Which part would you like to test?\n";
+  cout << "0------The base methods of Matrix\n";
+  cout << "1------The base methods of Vector\n";
+  cout << "2------Matrix's advanced methods\n";
+  cout << "3------Stream Overloading test\n";
+  int mode;
+  cin >> mode;
+  switch(mode) {
+  case 0: BaseMethodOfMatrix(); break;
+  case 1: BaseMethodOfVector(); break;
+  case 2: MatrixAdvancedMethod(); break;
+  case 3: StreamOverloading(); break;
+  }
+  return 0;
+}
+
+void BaseMethodOfMatrix() {
   //show the method of class Matrix
   cout << "**************************\n\n"
        << "The base methods of Matrix\n\n"
@@ -17,12 +38,12 @@ int main() {
   //method #1
   cout << "example is " << endl;
   example.set(C_2D_array);
-  example.print();
+  cout << example << endl;
   //method #2
   cout << "example is " << endl;
   example.set_one(0, 0, 0);
-  example.print();
-  cout << "after set index[0][0] to 0" << endl;
+  cout << example << endl
+       << "after set index[0][0] to 0" << endl;
   //method #4
   int *row_col_message = example.size();
   cout << "The row of example is " << row_col_message[0] << endl
@@ -32,31 +53,32 @@ int main() {
   //method #5
   cout << "Entry of row 1 col 1 is " << example.get(1, 1) << endl;
   //method #6
-  cout << "row 1 is " << endl;
-  example.row(1).print();
+  cout << "row 1 is " << endl
+       << example.row(1) << endl;
   //method #7
-  cout << "col 1 is " << endl;
-  example.col(1).print();
+  cout << "col 1 is " << endl
+       << example.col(1) << endl;
   //method #8
-  cout << "The maxinum entry of example is ";
-  cout << example.max_entry() << endl;
+  cout << "The maxinum entry of example is "
+       << example.max_entry() << endl;
   //method #9
-  cout << "The mininum entry of example is ";
-  cout << example.min_entry() << endl;
+  cout << "The mininum entry of example is "
+       << example.min_entry() << endl;
   //method #10
   cout << "example + example =" << endl;
   Matrix<double> sum = example + example;
-  sum.print();
+  cout << sum << endl;
   //method #11
   cout << "example - example =" << endl;
   Matrix<double> substract = example - example;
-  substract.print();
+  cout << substract << endl;
   //method #12
   cout << "example * example =" << endl;
   Matrix<double> multiply = example * example;
-  multiply.print();
+  cout << multiply << endl;
+}
 
-
+void BaseMethodOfVector() {
   //show the method of class Vector;
   cout << "\n**************************\n\n"
        << "The base methods of Vector\n\n"
@@ -66,11 +88,11 @@ int main() {
   //method #1
   cout << "vec is ";
   vec.set(C_2D_array2);
-  vec.print();
+  cout << vec << endl;
   //mrthod #2
   cout << "vec is ";
   vec.set_one(0, 0);
-  vec.print();
+  cout << vec << endl;
   cout << "after set index 0 to 0" << endl;
   //method #3
   cout << "The dimension of vec is " << vec.dimension() << endl;
@@ -79,15 +101,15 @@ int main() {
   //method #5
   cout << "vec + vec = ";
   Vector<int> sum2 = vec + vec;
-  sum2.print();
+  cout << sum2 << endl;
   //method #6
   cout << "vec - vec = ";
   Vector<int> substract2 = vec - vec;
-  substract2.print();
+  cout << substract2 << endl;
   //method #7
   cout << "vec * vec = ";
   Vector<int> multiply2(vec * vec);
-  multiply2.print();
+  cout << multiply2 << endl;
 
   //show the new method "all" and "any"
   Matrix<int> base;
@@ -98,8 +120,10 @@ int main() {
   //method "any"
   int check_for_any[3] = { 11, 22, 33 };
   cout << (base.any(check_for_any) ? "True\n" : "False\n");
+}
 
-  //show the new method "determinant", "transpose" and "inverse"
+void MatrixAdvancedMethod() {
+    //show the new method "determinant", "transpose" and "inverse"
   cout << "*************************\n\n"
        << "Matrix's advanced methods\n\n"
        << "*************************\n";
@@ -110,25 +134,30 @@ int main() {
                               {0, 2, 0, 0, 1}};
   Matrix<double> example2;
   example2.set(C_2D_array3);
-  cout << "Matrix example2 is " << endl;
-  example2.print();
+  cout << "Matrix example2 is " << endl
+       << example2 << endl;
   //show the method "inverse"
-  cout << "The inverse of 'example2' is " << endl;
-  example2.inverse().print();
-  cout << endl << "example2 * example2-1 is " << endl;
-  (example2 * example2.inverse()).print();
+  cout << "The inverse of 'example2' is " << endl
+       << example2.inverse() << endl;
+  cout << endl << "example2 * example2-1 is " << endl
+       << example2 * example2.inverse() << endl;
   //show the method "determinant"
   cout << "The determinant of example2 is "
        << example2.determinant() << endl;
   //show the method "transpose"
-  cout << "The transpose form of example2 is " << endl;
-  example2.transpose().print();
+  cout << "The transpose form of example2 is " << endl
+       << example2.transpose() << endl;
   //show the overload of operator ()
   cout << "example2(2, 2) is " << example2(2, 2) << endl;
-
-  ///////////////////////
-  Matrix<double> hey;
-  hey << "1.1,2.2,3.3;4.4,5,6;7,8,9";
-  hey.print();
-  return 0;
+}
+void StreamOverloading() {
+  cout << "******************\n"
+       << "Stream Overloading\n"
+       << "******************\n";
+  Matrix<double> o1;
+  o1 << "1.1,2.2,3.3;4.4,5,6;7,8,9";
+  cout << o1 << endl;
+  Vector<double> o2;
+  o2 << "1.2,2.3,3.4";
+  cout << o2 << endl;
 }

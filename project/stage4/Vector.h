@@ -7,60 +7,62 @@ class Vector : public Base<T> {
  public:
   Vector() : Base<T>() {}
   Vector(const Vector<T> &other) : Base<T>(other) {}
-  Vector(int row) : Base<T>(row, 1) {}
+ Vector(int col) : Base<T>(1, col) {}
   T length() const;
-  void print() const;
   int dimension() const;
   Vector<T> operator+(const Vector<T>&) const;
   Vector<T> operator-(const Vector<T>&) const;
   Vector<T> operator*(const Vector<T>&) const;
+  template <typename S>
+  friend ostream& operator<<(ostream&, const Vector<S>&);
 };
 
 template<typename T>
 T Vector<T>::length() const{
   T length = 0;
-  for (int i = 0; i < Base<T>::_row; ++i)
-    length += Base<T>::_data[i][0] * Base<T>::_data[i][0];
+  for (int i = 0; i < Base<T>::_col; ++i)
+    length += Base<T>::_data[0][i] * Base<T>::_data[0][i];
   length = sqrt(length);
   return length;
 }
 
 template<typename T>
-void Vector<T>::print() const{
-  cout << '(';
-  for (int i = 0; i < Base<T>::_row; ++i) {
-    cout << Base<T>::_data[i][0];
-    if (i != Base<T>::_row - 1) cout << ", ";
+ostream& operator<<(ostream& output, const Vector<T>& v) {
+  output << '(';
+  for (int i = 0; i < v._col; ++i) {
+    output << v._data[0][i];
+    if (i != v._col - 1) output << ", ";
   }
-  cout << ")\n";
+  output << ")";
+  return output;
 }
 
 template<typename T>
 int Vector<T>::dimension() const {
-  return Base<T>::_row;
+  return Base<T>::_col;
 }
 
 template<typename T>
 Vector<T> Vector<T>::operator+(const Vector<T>& other) const{
-  Vector ans(Base<T>::_row);
-  for (int i = 0; i < Base<T>::_row; ++i)
-    ans._data[i][0] = other._data[i][0] + Base<T>::_data[i][0];
+  Vector ans(Base<T>::_col);
+  for (int i = 0; i < Base<T>::_col; ++i)
+    ans._data[0][i] = other._data[0][i] + Base<T>::_data[0][i];
   return ans;
 }
 
 template<typename T>
 Vector<T> Vector<T>::operator-(const Vector<T>& other) const {
-  Vector<T> ans(Base<T>::_row);
-  for (int i = 0; i < Base<T>::_row; ++i)
-    ans._data[i][0] = other._data[i][0] - Base<T>::_data[i][0];
+  Vector<T> ans(Base<T>::_col);
+  for (int i = 0; i < Base<T>::_col; ++i)
+    ans._data[0][i] = other._data[0][i] - Base<T>::_data[0][i];
   return ans;
 }
 
 template<typename T>
 Vector<T> Vector<T>::operator*(const Vector<T>& other) const {
   Vector<T> ans(1);
-  for (int i = 0; i < Base<T>::_row; ++i)
-    ans._data[0][0] += other._data[i][0] * Base<T>::_data[i][0];
+  for (int i = 0; i < Base<T>::_col; ++i)
+    ans._data[0][0] += other._data[0][i] * Base<T>::_data[0][i];
   return ans;
 }
 #endif

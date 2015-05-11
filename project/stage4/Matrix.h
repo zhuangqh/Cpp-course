@@ -19,7 +19,6 @@ class Matrix : public Base<T> {
   Matrix(const Matrix<T> &other) : Base<T>(other) {}
   Matrix(int row, int col) : Base<T>(row, col) {}
   ~Matrix() {}
-  void print() const;
   Matrix row(int) const;
   Matrix col(int) const;
   T max_entry() const;
@@ -30,6 +29,8 @@ class Matrix : public Base<T> {
   Matrix operator+(const Matrix<T> &) const;
   Matrix operator-(const Matrix<T> &) const;
   Matrix operator*(const Matrix<T> &) const;
+  template <typename S>
+    friend ostream& operator<<(ostream&, const Matrix<S>&);
 };
 
 template <typename T>
@@ -62,14 +63,15 @@ void Matrix<T>::replace(int dest, int src, T constant) {
 
 //print the matrix with a good layout
 template<typename T>
-void Matrix<T>::print() const{
-  for (int i = 0; i < Base<T>::_row; ++i) {
-    cout << "| ";
-    for (int j = 0; j < Base<T>::_col; ++j) {
-      cout << setw(6) << setfill(' ') << Base<T>::_data[i][j] << " ";
+ostream& operator<<(ostream& output, const Matrix<T>& m) {
+  for (int i = 0; i < m._row; ++i) {
+    output << "| ";
+    for (int j = 0; j < m._col; ++j) {
+      output << setw(6) << setfill(' ') << m._data[i][j] << " ";
     }
-    cout << " |" << endl;
+    output << " |" << endl;
   }
+  return output;
 }
 
 template<typename T>
@@ -119,9 +121,7 @@ Matrix<T> Matrix<T>::transpose() const {
     }
   }
   return ans;
-}
-
-template <typename T>
+}  template <typename T>
 T Matrix<T>::determinant() {
   Matrix<T> ans(*this);
   ans.deter = 1;

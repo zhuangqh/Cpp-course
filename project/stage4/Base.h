@@ -23,7 +23,6 @@ class Base {
   void set_one(T value, int pos_x, int pos_y = 0);
   int *size() const;
   T get(int pos_x , int pos_y = 0) const;
-  virtual void print() const = 0;
   template <unsigned N>
     bool all(T (&)[N]) const;
   template <unsigned N>
