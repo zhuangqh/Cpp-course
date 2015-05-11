@@ -1,25 +1,42 @@
 #include "Matrix.h"
 #include "Vector.h"
 #include <iostream>
-#include <assert.h>
+#include <typeinfo>
 using namespace std;
 void BaseMethodOfMatrix();
 void BaseMethodOfVector();
 void MatrixAdvancedMethod();
 void StreamOverloading();
+void ShowExceptionHandle();
 int main() {
   cout << "Which part would you like to test?\n";
   cout << "0------The base methods of Matrix\n";
   cout << "1------The base methods of Vector\n";
   cout << "2------Matrix's advanced methods\n";
   cout << "3------Stream Overloading test\n";
+  cout << "4------Show the Exception Handle\n";
   int mode;
   cin >> mode;
-  switch(mode) {
-  case 0: BaseMethodOfMatrix(); break;
-  case 1: BaseMethodOfVector(); break;
-  case 2: MatrixAdvancedMethod(); break;
-  case 3: StreamOverloading(); break;
+  try {
+    switch(mode) {
+    case 0: BaseMethodOfMatrix(); break;
+    case 1: BaseMethodOfVector(); break;
+    case 2: MatrixAdvancedMethod(); break;
+    case 3: StreamOverloading(); break;
+    case 4: ShowExceptionHandle(); break;
+    }
+  } catch (const out_of_range& e) {
+    cout << "Exception occurred : "
+         << e.what() << endl
+         << "Error Type : " << typeid(e).name() << endl;
+  } catch (const invalid_argument& e) {
+    cout << "Exception occurred : "
+         << e.what() << endl
+         << "Error Type : " << typeid(e).name() << endl;
+  } catch (const logic_error& e) {
+    cout << "Exception occurred : "
+         << e.what() << endl
+         << "Error Type : " << typeid(e).name() << endl;
   }
   return 0;
 }
@@ -150,6 +167,7 @@ void MatrixAdvancedMethod() {
   //show the overload of operator ()
   cout << "example2(2, 2) is " << example2(2, 2) << endl;
 }
+
 void StreamOverloading() {
   cout << "******************\n"
        << "Stream Overloading\n"
@@ -160,4 +178,19 @@ void StreamOverloading() {
   Vector<double> o2;
   o2 << "1.2,2.3,3.4";
   cout << o2 << endl;
+}
+
+void ShowExceptionHandle() {
+  cout << "*************************\n"
+       << "Show the exception handle\n"
+       << "*************************\n";
+    double value[2][2] = {{1, 2},
+                          {2, 4}};
+    double value2[1][2] = {1, 2};
+    Matrix<double> m1, m2;
+    m1.set(value);
+    m2.set(value2);
+    //cout << "m1 + m2 = " << m1 + m2 << endl;
+    //cout << "inverse of m1 " << m1.inverse() << endl;
+    cout << m1(2, 2) << endl;
 }

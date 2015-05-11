@@ -2,8 +2,9 @@
 #define BASE_H
 #include <iostream>
 #include <sstream>
-#include <vector>
 #include <string>
+#include <stdexcept>
+#include <vector>
 using namespace std;
 template <typename T>
 class Base {
@@ -97,8 +98,10 @@ template <unsigned N, unsigned M>
 
 template <typename T>
 void Base<T>::set_one(T value, int pos_x, int pos_y) {
-  if (pos_x < _row && pos_y < _col)
+  if (pos_x < _row && pos_x >= 0 && pos_y >= 0 && pos_y < _col)
     _data[pos_x][pos_y] = value;
+  else
+    throw out_of_range("Can't set a value in this position.");
 }
 
 template <typename T>
@@ -118,12 +121,10 @@ int *Base<T>::size() const {
 
 template <typename T>
 T Base<T>::get(int pos_x, int pos_y) const {
-  if (pos_x < _row && pos_x >= 0 && pos_y < _col && pos_y >= 0) {
+  if (pos_x < _row && pos_x >= 0 && pos_y < _col && pos_y >= 0)
     return _data[pos_x][pos_y];
-  } else {
-    cout << "out of range!" << endl;
-    return 1 << 31;
-  }
+  else
+    throw out_of_range("Can't get a value out of the Matrix.");
 }
 
 template <typename T>
@@ -158,8 +159,10 @@ template <unsigned N>
 
 template <typename T>
 T Base<T>::operator()(int row, int col) const {
-  if (row >= 0 && row < _row && col >= 0 && col < _col)
+  if (row >= 0 && row < Base<T>::_row && col >= 0 && col < Base<T>::_col)
     return _data[row][col];
+  else
+    throw out_of_range("Can't get a value out of the range.");
 }
 
 template <typename T>

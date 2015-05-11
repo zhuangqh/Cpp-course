@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <assert.h>
+#include <stdexcept>
 using namespace std;
 template<typename T>
 class Matrix : public Base<T> {
@@ -121,7 +122,9 @@ Matrix<T> Matrix<T>::transpose() const {
     }
   }
   return ans;
-}  template <typename T>
+}
+
+template <typename T>
 T Matrix<T>::determinant() {
   Matrix<T> ans(*this);
   ans.deter = 1;
@@ -144,7 +147,8 @@ T Matrix<T>::determinant() {
 
 template <typename T>
 Matrix<T> Matrix<T>::inverse() {
-  assert(Base<T>::_row == Base<T>::_col);
+  if (Base<T>::_col != Base<T>::_row)
+    throw logic_error("The matrix is not inversible!");
   Matrix<T> ans(Base<T>::_row, Base<T>::_col);
   Matrix<T> src(*this);
   //create a identity matrix
@@ -154,7 +158,9 @@ Matrix<T> Matrix<T>::inverse() {
   //1. reduce the matrix 'src' to echelon form
   for (int i = 0; i < src._row; ++i) {
     int pivot = src.find_pivot_from(i);
-    assert(pivot >= 0);
+    if (pivot < 0)
+      throw logic_error("The matrix is not inversible!");
+
     src.swap_row(i, pivot);
     ans.swap_row(i, pivot);
     for (int j = i + 1; j < ans._row; ++j) {
@@ -184,6 +190,9 @@ Matrix<T> Matrix<T>::inverse() {
 
 template <typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const{
+  if ((Base<T>::_row != other._row) || (Base<T>::_col != other._col))
+    throw invalid_argument("The size of matrix is not matched.");
+
   Matrix<T> ans(Base<T>::_row, Base<T>::_col);
   for (int i = 0; i < Base<T>::_row; ++i) {
     for (int j = 0; j < Base<T>::_col; ++j) {
@@ -195,6 +204,9 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const{
 
 template <typename T>
 Matrix<T> Matrix<T>::operator-(const Matrix<T> &other) const{
+  if ((Base<T>::_row != other._row) || (Base<T>::_col != other._col))
+    throw invalid_argument("The size of matrix is not matched.");
+
   Matrix ans(Base<T>::_row, Base<T>::_col);
   for (int i = 0; i < Base<T>::_row; ++i) {
     for (int j = 0; j < Base<T>::_col; ++j) {
@@ -206,6 +218,9 @@ Matrix<T> Matrix<T>::operator-(const Matrix<T> &other) const{
 
 template <typename T>
 Matrix<T> Matrix<T>::operator*(const Matrix<T> &other) const{
+  if ((Base<T>::_row != other._col) || (Base<T>::_col != other._row))
+    throw invalid_argument("The size of matrix is not matched.");
+
   Matrix<T> ans(Base<T>::_row, other._col);
   for (int i = 0; i < Base<T>::_row; ++i) {
     for (int j = 0; j < other._col; ++j) {
