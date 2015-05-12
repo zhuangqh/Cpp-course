@@ -190,7 +190,10 @@ void ShowExceptionHandle() {
     Matrix<double> m1, m2;
     m1.set(value);
     m2.set(value2);
-    //cout << "m1 + m2 = " << m1 + m2 << endl;
-    //cout << "inverse of m1 " << m1.inverse() << endl;
-    cout << m1(2, 2) << endl;
+    //Please comment or uncomment some of the statement
+    //to test the exception handle  :)
+    cout << "m1 + m2 = " << m1 + m2 << endl;
+    cout << "inverse of m1 " << m1.inverse() << endl;
+    //cout << m1(2, 2) << endl;
+
 }
