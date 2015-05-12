@@ -39,6 +39,6 @@
 3.  Reduce the left matrix to identity form. Do the same operation on the right matrix. When the left matrix become its identity form, the right matrix is the answer.
 
     ####Exception Handling
-* The detailed description about exception is written on 'Exceptions.txt'.
+* The detailed description about exceptions is written on 'Exceptions.txt'.
 
 **You can get my source code from [here](https://github.com/zhuangqh/Cpp_homework/tree/master/project)**
