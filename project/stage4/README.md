@@ -37,6 +37,10 @@
 1.  'Write' down two matrices, one is the original matrix, one is the identity matrix of the same numbers of row.
 2.  Use Gaussian Elimination reducing the matrix to its echelon form. Do the same operation on the right matrix.
 3.  Reduce the left matrix to identity form. Do the same operation on the right matrix. When the left matrix become its identity form, the right matrix is the answer.
+    
+    ####Stream Overloading
+* Overload the operator '<<' to input data into a matrix or vector from a string literal. For example, "1.1,2.2,3.3" will be converted into number 1.1, 2.2 and 3.3, being assigned to a matrix or vector.
+* Using operator '<<' to print the matrix or vector in a good layout.
 
     ####Exception Handling
 * The detailed description about exceptions is written on 'Exceptions.txt'.
