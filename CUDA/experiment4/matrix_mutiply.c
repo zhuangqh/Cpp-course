@@ -1,58 +1,54 @@
-#include <mpi.h>
 #include <stdio.h>
-#define N 3
-int main(int argc, char* argv[]) {
-  MPI_Init(&argc, &argv);
-  int my_rank, comm_sz;
-  int a, b, c, tmpA;
-  MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
-  MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
-
-  // create two matrix
-  int A[3][3] = {{1, 3, 3},
-                 {1, 0, 0},
-                 {1, 2, 2}};
-  int B[3][3] = {{0, 0, 2},
-                 {7, 5, 0},
-                 {2, 1, 1}};
-  int C[3][3] = {0};
-  printf("caonima\n");
-  //get data
-  printf("fu\n");
-  a = A[my_rank / N][my_rank % N];
-  printf("fuck %d in %d", a, my_rank);
-
-    //Broadcast
-  for (int k = 0; k < N; ++k) {
-      tmpA = a;
-      MPI_Bcast(&tmpA, 1, MPI_INT, my_rank, MPI_COMM_WORLD);
-      MPI_Recv(&tmpA, 1, MPI_INT, my_rank, my_rank, MPI_COMM_WORLD,
-               MPI_STATUS_IGNORE);
-    for (int i = 0; i < N; ++i) {
-      for (int j = 0; j < N; ++j) {
-        printf("fuckhere\n");
-        //Multiply
-        C[i][j] = tmpA * B[i][j];
-        //Roll
-      }
-    }
-    for (int i = 0; i < N; ++i) {
-      for (int j = 0; j < N; ++j) {
-        //Roll
-        B[i][j] = B[(i+1) % N][j];
-      }
+#include <pthread.h>
+#include <stdlib.h>
+#include <string.h>
+int N, M;
+int *matrix;
+int *vector;
+int *ans;
+int *Index;
+void* compute(void *);
+int main() {
+  int i, j;
+  scanf("%d%d", &N, &M);
+  matrix = (int *)malloc(sizeof(int) * N * M);
+  vector = (int *)malloc(sizeof(int) * M);
+  ans = (int *)malloc(sizeof(int) * N);
+  Index = (int *)malloc(sizeof(int) * N);
+  //initialize the array of index and answer
+  memset(ans, 0, sizeof(*ans));
+  for (i = 0; i < N; ++i)
+    Index[i] = i;
+  //read data
+  for (i = 0; i < N; ++i) {
+    for (j = 0; j < M; ++j) {
+      scanf("%d", matrix + i * N + j);
     }
   }
+  for (i = 0; i < M; ++i)
+    scanf("%d", vector + i);
+  //handle data
+  pthread_t *tids = (pthread_t *)malloc(sizeof(pthread_t) * N);
+  for (i = 0; i < N; ++i) {
+    pthread_create(&tids[i], NULL, compute, &Index[i]);
+  }
+  //wait others
+  for (i = 0; i < N; ++i)
+    pthread_join(tids[i], NULL);
+
   //print the answer
-  if (my_rank == 0) {
-    for (int i = 0; i < N; ++i) {
-      for (int j = 0; j < N; ++j) {
-        if (j) printf(" ");
-        printf("%d", C[i][j]);
-      }
-      printf("\n");
-    }
-  }
-  MPI_Finalize();
+  printf("The answer of the mutiplication is\n");
+  for (i = 0; i < N; ++i)
+    printf("%d\n", ans[i]);
   return 0;
+}
+void* compute(void* arg) {
+  printf("oh i am fucking here\n");
+  const int index = *(int *)arg;
+  int i;
+  for (i = 0; i < M; ++i) {
+    ans[index] += matrix[index * N + i] * vector[i];
+  }
+  printf("index : %d ans[i] %d", index, ans[index]);
+  pthread_exit(NULL);
 }
