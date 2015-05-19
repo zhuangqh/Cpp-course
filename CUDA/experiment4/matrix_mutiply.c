@@ -43,12 +43,10 @@ int main() {
   return 0;
 }
 void* compute(void* arg) {
-  printf("oh i am fucking here\n");
   const int index = *(int *)arg;
   int i;
   for (i = 0; i < M; ++i) {
     ans[index] += matrix[index * N + i] * vector[i];
   }
-  printf("index : %d ans[i] %d", index, ans[index]);
   pthread_exit(NULL);
 }
