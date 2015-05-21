@@ -40,6 +40,11 @@ int main() {
   printf("The answer of the mutiplication is\n");
   for (i = 0; i < N; ++i)
     printf("%d\n", ans[i]);
+
+  free(matrix);
+  free(vector);
+  free(ans);
+  free(Index);
   return 0;
 }
 void* compute(void* arg) {
