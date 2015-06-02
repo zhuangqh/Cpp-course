@@ -1,0 +1,22 @@
+ --------------------------------------------------------------------------------------------------------
+|      Exception Type       | Description                 |      Problem                  | In function  |
+|--------------------------------------------------------------------------------------------------------|
+|   OutOfRange Exception    | index might be out of range | Can't set a value that out of |    set_one   |
+|                           |                             | range of matrix or vector     |              |
+|--------------------------------------------------------------------------------------------------------|
+|   OutOfRange Exception    | index might be out of range | Can't get a value that out of |     get      |
+|                           |                             | range of matrix or vector     |  operator()  |
+|--------------------------------------------------------------------------------------------------------|
+| InvalidArgument Exception | The size of operand are not | Can't do addtion, subtraction |  operator+   |
+|                           | matched                     | multiplication on two operand |  operator-   |
+|                           |                             | which size are not matched    |  operator*   |
+|--------------------------------------------------------------------------------------------------------|
+|      Logic Exception      | The matrix is not a square  | Can't get the inverse of a    |   inverse    |
+|                           | matrix                      | irreversible matrix           |              |
+|                           | The matrix don't have a     |                               |              |
+|                           | pivot in each row           |                               |              |
+ --------------------------------------------------------------------------------------------------------
+Note: *If a 3*3 matrix is assigned to a 3*2 matrix from function 'set' or operator <<, I will
+       reset the matrix's size to 3*3. So, don't worry about that their size are not matched.
+      *I have developed some function to well manage the memory, don't worry about the memory
+       problem.  :)
