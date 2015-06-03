@@ -1,4 +1,4 @@
-#Project Stage4
+#Project Stage5
 ***
 ### What I have done
 * Design a base class and let 'Matrix' and 'Vector' inherit from it
@@ -9,14 +9,16 @@
 * Three Matrix's methods: transpose, determinant, inverse
 * Add three basic operation: find_pivot_from, swap_row, replace
 * Exception Handling
+* File processing
 
 ### The organization of my files
 * **Three .h file. The main.cpp shows the method of Class Matrix and Class Vector and Exception handling. **
 * The program will show a menu for you to choose which part of my work to show.
+* Several .txt files for file reading and writing
 
 
 ### Notes
-* Add two member function called 'create' and 'clean'.Function 'create' is used to apply for memory. Function 'clean' is used to free memory.
+* Add two member function called 'create' and 'clean'.Function 'create' is used to allocate memory. Function 'clean' is used to deallocate memory.
 * Add a destructor to well manage the memory. 
 * Change all the member function to const if they needn't to modify the member data.
 * I don't think it is necessary to add pure virtual  function in my program.
@@ -44,5 +46,10 @@
 
     ####Exception Handling
 * The detailed description about exceptions is written on 'Exceptions.txt'.
+
+    ####File processing
+* Function 'setByFile' and 'printToFile' are used to read data from file and output formatted data to file.
+* Function 'sort' sorts the data by ascending order or descending order using bubble sort algorithm.
+* Function 'hear' adds two Matrices or Vectors when receiving 'I love' while substracts one from another when receving 'I hate'.
 
 **You can get my source code from [here](https://github.com/zhuangqh/Cpp_homework/tree/master/project)**
