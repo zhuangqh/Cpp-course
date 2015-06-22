@@ -1,6 +1,7 @@
 #include "Matrix.h"
 #include "Vector.h"
 #include <iostream>
+#include <string>
 #include <typeinfo>
 #include <GL/glut.h>
 
@@ -84,6 +85,20 @@ void reshape (int w, int h) {
                     250.0*(GLfloat)w/(GLfloat)h, -50.0, 200.0);
     glMatrixMode(GL_MODELVIEW);
 }
+void pose(const std::string mode) {
+
+}
+
+void keyboard(unsigned char key, int x, int y) {
+  switch (key) {
+  case 'q': break;
+  case 'z': pose("qz"); break;
+  case 'r': pose("qr"); break;
+  case 'n': pose("qn"); break;
+  case 'd': pose("qd"); break;
+  }
+}
+
 
 int main(int argc, char** argv) {
   glutInit(&argc, argv);
@@ -97,7 +112,7 @@ int main(int argc, char** argv) {
   glutDisplayFunc(display);
   glutReshapeFunc(reshape);
 
+  glutKeyboardFunc(keyboard);
   glutMainLoop();
-
   return 0;
 }
