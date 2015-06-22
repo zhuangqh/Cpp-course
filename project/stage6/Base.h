@@ -32,7 +32,7 @@ class Base {
     bool all(T (&)[N]) const;
   template <unsigned N>
     bool any(T (&)[N]) const;
-  T operator()(int row, int col = 0) const;
+  T& operator()(int row, int col = 0);
   void operator<<(const char*);
   void operator=(const Base&);
   void setByFile(const char*, int row, int col);
@@ -172,7 +172,7 @@ template <unsigned N>
 }
 
 template <typename T>
-T Base<T>::operator()(int row, int col) const {
+T& Base<T>::operator()(int row, int col) {
   if (row >= 0 && row < Base<T>::_row && col >= 0 && col < Base<T>::_col)
     return _data[row][col];
   else

@@ -224,7 +224,7 @@ Matrix<T> Matrix<T>::operator-(const Matrix<T> &other) const{
 
 template <typename T>
 Matrix<T> Matrix<T>::operator*(const Matrix<T> &other) const{
-  if ((Base<T>::_row != other._col) || (Base<T>::_col != other._row))
+  if (Base<T>::_col != other._row)
     throw std::invalid_argument("The size of matrix is not matched.");
 
   Matrix<T> ans(Base<T>::_row, other._col);

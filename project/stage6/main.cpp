@@ -4,6 +4,8 @@
 #include <string>
 #include <typeinfo>
 #include <GL/glut.h>
+#include <map>
+#include <cmath>
 
 // coordinates of frame
 float array[3][7] = {
@@ -14,21 +16,25 @@ float array[3][7] = {
 
 // translation matrix
 float matrix_trans[3][3] = {
-    {1.0, 0.0, 50.0},
+    {1.0, 0.0, 0.0},
     {0.0, 1.0, 0.0},
     {0.0, 0.0, 1.0}
 };
 
 // rotation matrix
 float matrix_rotat[3][3] = {
-    {0.0, -1.0, 0.0},
-    {1.0, 0.0, 0.0},
+    {0.0, 0.0, 0.0},
+    {0.0, 0.0, 0.0},
     {0.0, 0.0, 1.0}
 };
 
+//necessary varibles
+const float pi = 2 * asin(1);
+Matrix<float> primary_frame(array);
 Matrix<float> frame(array);
 Matrix<float> trans(matrix_trans);
 Matrix<float> rotat(matrix_rotat);
+std::map<std::string, Vector<float> >poses;
 
 void init(void) {
     glClearColor (0.0, 0.0, 0.0, 0.0);
@@ -63,6 +69,42 @@ void draw_axis(void) {
     glEnd();
 }
 
+void draw_frame(void) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 7; j++) {
+          frame(i, j) /= frame(2, j);
+        }
+    }
+
+    glShadeModel(GL_SMOOTH);
+    glBegin (GL_LINES);//draw frame
+        glColor3f(1.0, 0.0, 0.0);
+        glVertex2f(frame(0, 0), frame(1, 0));
+        glVertex2f(frame(0, 1), frame(1, 1));
+
+        glColor3f(1.0, 0.0, 0.0);
+        glVertex2f(frame(0, 1), frame(1, 1));
+        glVertex2f(frame(0, 3), frame(1, 3));
+
+        glColor3f(1.0, 0.0, 0.0);
+        glVertex2f(frame(0, 1), frame(1, 1));
+        glVertex2f(frame(0, 4), frame(1, 4));
+
+
+        glColor3f(0.0, 1.0, 0.0);
+        glVertex2f(frame(0, 0), frame(1, 0));
+        glVertex2f(frame(0, 2), frame(1, 2));
+
+        glColor3f(0.0, 1.0, 0.0);
+        glVertex2f(frame(0, 2), frame(1, 2));
+        glVertex2f(frame(0, 5), frame(1, 5));
+
+        glColor3f(0.0, 1.0, 0.0);
+        glVertex2f(frame(0, 2), frame(1, 2));
+        glVertex2f(frame(0, 6), frame(1, 6));
+    glEnd();
+}
+
 void display(void) {
     glClear (GL_COLOR_BUFFER_BIT);
 
@@ -85,22 +127,62 @@ void reshape (int w, int h) {
                     250.0*(GLfloat)w/(GLfloat)h, -50.0, 200.0);
     glMatrixMode(GL_MODELVIEW);
 }
-void pose(const std::string mode) {
+void draw_pose(const std::string mode) {
+  frame = primary_frame;
+  draw_frame();
+  for (int i = 0; i < 3; ++i) {
+    Matrix<float> now = frame;
 
+    //translate the frame to the origin
+    trans(0, 2) = -1 * frame(0, 0);
+    trans(1, 2) = -1 * frame(1, 0);
+    now = trans * frame;
+
+    //rotate
+    float rotate_deg = poses[mode](i) * pi / 180.0;
+    rotat(0, 0) = cos(rotate_deg);
+    rotat(0, 1) = sin(rotate_deg);
+    rotat(1, 0) = -1 * sin(rotate_deg);
+    rotat(1, 1) = cos(rotate_deg);
+
+    now = rotat * now;
+
+    //translate back after rotation
+    trans(0, 2) = frame(0, 0);
+    trans(1, 2) = frame(1, 0);
+    now = trans * now;
+
+    //for test
+    trans(0, 2) = 5;
+    trans(1, 2) = 5;
+    frame = trans * now;
+    draw_frame();
+  }
+  glFlush();
 }
 
 void keyboard(unsigned char key, int x, int y) {
   switch (key) {
   case 'q': break;
-  case 'z': pose("qz"); break;
-  case 'r': pose("qr"); break;
-  case 'n': pose("qn"); break;
-  case 'd': pose("qd"); break;
+  case 'z': draw_pose("qz"); break;
+  case 'r': draw_pose("qr"); break;
+  case 'n': draw_pose("qn"); break;
+  case 'd': draw_pose("qd"); break;
   }
 }
 
 
 int main(int argc, char** argv) {
+  //create a list of poses
+  float parameters[4][1][3] = {0, 0, 0,
+                           90, 0, 0,
+                           45, -45, 45,
+                           -90, 0, 0};
+  poses["qz"] = Vector<float>(parameters[0]);
+  poses["qr"] = Vector<float>(parameters[1]);
+  poses["qn"] = Vector<float>(parameters[2]);
+  poses["qd"] = Vector<float>(parameters[3]);
+
   glutInit(&argc, argv);
   glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
   glutInitWindowSize (800, 800);

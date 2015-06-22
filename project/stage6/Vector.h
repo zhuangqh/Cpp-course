@@ -8,12 +8,15 @@ class Vector : public Base<T> {
   Vector() : Base<T>() {}
   Vector(const Vector<T> &other) : Base<T>(other) {}
   Vector(int col) : Base<T>(1, col) {}
+  template <unsigned N, unsigned M>
+    Vector(const T (&keys)[N][M]) : Base<T>(keys) {}
   T length() const;
   int dimension() const;
   void hear(const std::string &, const Vector<T>&);
   Vector<T> operator+(const Vector<T>&) const;
   Vector<T> operator-(const Vector<T>&) const;
   Vector<T> operator*(const Vector<T>&) const;
+  T& operator()(int index);
   template <typename S>
     friend std::ostream& operator<<(std::ostream&, const Vector<S>&);
   void setByFile(const char *filename, int len) {
@@ -83,5 +86,10 @@ Vector<T> Vector<T>::operator*(const Vector<T>& other) const {
   for (int i = 0; i < Base<T>::_col; ++i)
     ans._data[0][0] += other._data[0][i] * Base<T>::_data[0][i];
   return ans;
+}
+
+template <typename T>
+T& Vector<T>::operator()(int index) {
+  Base<T>::operator()(0, index);
 }
 #endif
