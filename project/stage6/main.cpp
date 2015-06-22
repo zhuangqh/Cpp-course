@@ -9,8 +9,8 @@
 
 // coordinates of frame
 float array[3][7] = {
-    {0.0, 50.0,  0.0, 45.0, 45.0, -5.0,  5.0},
-    {0.0,  0.0, 50.0, -5.0,  5.0, 45.0, 45.0},
+    {0.0, 0.125,  0.0, 0.1125, 0.1125, -0.0125,  0.0125},
+    {0.0,  0.0, 0.125, -0.0125,  0.0125, 0.1125, 0.1125},
     {1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0}
 };
 
@@ -34,7 +34,7 @@ Matrix<float> primary_frame(array);
 Matrix<float> frame(array);
 Matrix<float> trans(matrix_trans);
 Matrix<float> rotat(matrix_rotat);
-std::map<std::string, Vector<float> >poses;
+std::map<std::string, Vector<float> >pose_list;
 
 void init(void) {
     glClearColor (0.0, 0.0, 0.0, 0.0);
@@ -45,26 +45,26 @@ void draw_axis(void) {
     // draw coordinate axis
         glBegin(GL_LINES);
                 glColor3f(1.0, 1.0, 1.0);  // x axis
-                glVertex2f(-400.0, 0.0);
-        glVertex2f(400.0, 0.0);
+                glVertex2f(-1.0, 0.0);
+                glVertex2f(1.0, 0.0);
 
         glColor3f(1.0, 1.0, 1.0);  // y axis
-                glVertex2f(0.0, 200.0);
-        glVertex2f(0.0, -200.0);
+                glVertex2f(0.0, 1.0);
+                glVertex2f(0.0, -1.0);
         glEnd();
 
     // draw scale
     glBegin(GL_LINES);
-        for (int i = -40; i <= 40; i++) {  // x axis
+        for (int i = -8; i <= 8; i++) {  // x axis
             glColor3f(1.0, 1.0, 1.0);
-            glVertex2f(10.0*i, 0.0);
-            glVertex2f(10.0*i, 3.0);
+            glVertex2f(0.125*i, 0.0);
+            glVertex2f(0.125*i, 0.0075);
         }
 
-        for (int i = -20; i <= 20; i++) {  // y axis
+        for (int i = -8; i <= 8; i++) {  // y axis
             glColor3f(1.0, 1.0, 1.0);
-            glVertex2f(0.0, 10.0*i);
-            glVertex2f(3.0, 10.0*i);
+            glVertex2f(0.0, 0.125*i);
+            glVertex2f(0.0075, 0.125*i);
         }
     glEnd();
 }
@@ -127,7 +127,11 @@ void reshape (int w, int h) {
                     250.0*(GLfloat)w/(GLfloat)h, -50.0, 200.0);
     glMatrixMode(GL_MODELVIEW);
 }
+
 void draw_pose(const std::string mode) {
+  glClear (GL_COLOR_BUFFER_BIT);
+  draw_axis();
+
   frame = primary_frame;
   draw_frame();
   for (int i = 0; i < 3; ++i) {
@@ -139,7 +143,7 @@ void draw_pose(const std::string mode) {
     now = trans * frame;
 
     //rotate
-    float rotate_deg = poses[mode](i) * pi / 180.0;
+    float rotate_deg = pose_list[mode](i) * pi * -1 / 180.0;
     rotat(0, 0) = cos(rotate_deg);
     rotat(0, 1) = sin(rotate_deg);
     rotat(1, 0) = -1 * sin(rotate_deg);
@@ -152,10 +156,19 @@ void draw_pose(const std::string mode) {
     trans(1, 2) = frame(1, 0);
     now = trans * now;
 
-    //for test
-    trans(0, 2) = 5;
-    trans(1, 2) = 5;
+    //translation
+    float tran_deg;
+    if (now(0, 1) - now(0, 0) > 1e-6)
+      tran_deg = atan((now(1, 1) - now(1, 0))
+                      / (now(0, 1) - now(0, 0)));
+    else
+      tran_deg = now(1, 1) - now(1, 0) > 0 ? (pi / 2) : (pi / -2);
+
+    trans(0, 2) = 0.125 * cos(tran_deg);
+    trans(1, 2) = 0.125 * sin(tran_deg);
     frame = trans * now;
+
+    glLoadIdentity();
     draw_frame();
   }
   glFlush();
@@ -178,21 +191,20 @@ int main(int argc, char** argv) {
                            90, 0, 0,
                            45, -45, 45,
                            -90, 0, 0};
-  poses["qz"] = Vector<float>(parameters[0]);
-  poses["qr"] = Vector<float>(parameters[1]);
-  poses["qn"] = Vector<float>(parameters[2]);
-  poses["qd"] = Vector<float>(parameters[3]);
+  pose_list["qz"] = Vector<float>(parameters[0]);
+  pose_list["qr"] = Vector<float>(parameters[1]);
+  pose_list["qn"] = Vector<float>(parameters[2]);
+  pose_list["qd"] = Vector<float>(parameters[3]);
 
   glutInit(&argc, argv);
   glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
   glutInitWindowSize (800, 800);
   glutInitWindowPosition (100, 100);
-  glutCreateWindow (argv[0]);
+  glutCreateWindow ("The robot arm");
 
   init();
 
   glutDisplayFunc(display);
-  glutReshapeFunc(reshape);
 
   glutKeyboardFunc(keyboard);
   glutMainLoop();

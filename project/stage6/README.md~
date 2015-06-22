@@ -1,6 +1,6 @@
-#Project Stage 6
+#Project Stage5
 ***
-### What have I done
+### What I have done
 * Design a base class and let 'Matrix' and 'Vector' inherit from it
 * Well managed constructor
 * The general method of 'set', 'get' and 'print'
@@ -12,8 +12,9 @@
 * File processing
 
 ### The organization of my files
-* **Three .h file. The main.cpp shows pose of a robot arm. **
-
+* **Three .h file. The main.cpp shows the method of Class Matrix and Class Vector and Exception handling. **
+* The program will show a menu for you to choose which part of my work to show.
+* Several .txt files for file reading and writing
 
 
 ### Notes

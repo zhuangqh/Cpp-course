@@ -18,9 +18,11 @@ class Matrix : public Base<T> {
   Matrix() : Base<T>() {}
   Matrix(const Matrix<T> &other) : Base<T>(other) {}
   Matrix(int row, int col) : Base<T>(row, col) {}
+
   template <unsigned N, unsigned M>
     Matrix(const T (&keys)[N][M]) : Base<T>(keys) {}
   ~Matrix() {}
+
   Matrix row(int) const;
   Matrix col(int) const;
   T max_entry() const;
@@ -29,9 +31,11 @@ class Matrix : public Base<T> {
   T determinant();
   Matrix inverse();
   void hear(const std::string&, const Matrix<T>&);
+
   Matrix operator+(const Matrix<T> &) const;
   Matrix operator-(const Matrix<T> &) const;
   Matrix operator*(const Matrix<T> &) const;
+
   template <typename S>
     friend std::ostream& operator<<(std::ostream&, const Matrix<S>&);
 };
@@ -171,6 +175,7 @@ Matrix<T> Matrix<T>::inverse() {
       ans.replace(j, i, constant);
     }
   }
+
   //2. reduce the matrix 'src' to identity form
   for (int i = Base<T>::_row - 1; i >= 0; --i) {
     for (int j = i; j >= 0; --j) {
@@ -194,6 +199,7 @@ void Matrix<T>::hear(const std::string &str, const Matrix<T>& m) {
   if (str == "I love") *this = *this + m;
   if (str == "I hate") *this = *this - m;
 }
+
 template <typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const{
   if ((Base<T>::_row != other._row) || (Base<T>::_col != other._col))
