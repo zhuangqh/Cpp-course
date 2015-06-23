@@ -166,8 +166,16 @@ void draw_pose(const std::string mode) {
 
     trans(0, 2) = 0.125 * cos(tran_deg);
     trans(1, 2) = 0.125 * sin(tran_deg);
-    frame = trans * now;
+    now = trans * now;
 
+    //draw arm
+    glBegin (GL_LINES);
+        glColor3f(1.0, 1.0, 1.0);
+        glVertex2f(frame(0, 0), frame(1, 0));
+        glVertex2f(now(0, 0), now(1, 0));
+    glEnd();
+
+    frame = now;
     glLoadIdentity();
     draw_frame();
   }
