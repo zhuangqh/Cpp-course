@@ -185,9 +185,13 @@ void draw_pose(const std::string mode) {
 void keyboard(unsigned char key, int x, int y) {
   switch (key) {
   case 'q': break;
+  case 'Z':
   case 'z': draw_pose("qz"); break;
+  case 'R':
   case 'r': draw_pose("qr"); break;
+  case 'N':
   case 'n': draw_pose("qn"); break;
+  case 'D':
   case 'd': draw_pose("qd"); break;
   }
 }
