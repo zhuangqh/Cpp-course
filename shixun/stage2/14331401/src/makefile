@@ -4,7 +4,9 @@ DEBUG = -g
 OP = -Wall -O0
 CXX_FLAGS = $(CXX) $(DEBUG)
 #List of Targets
-All: Date.o User.o Meeting.o Storage.o AgendaService.o
+All: Date.o User.o Meeting.o Storage.o AgendaService.o AgendaUI.o
+AgendaUI.o: AgendaUI.h AgendaUI.cpp
+	$(CXX) $(CC) AgendaUI.cpp
 AgendaService.o: AgendaService.h AgendaService.cpp
 	$(CXX) $(CC) AgendaService.cpp
 Date.o:	Date.h Date.cpp

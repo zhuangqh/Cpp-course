@@ -1,0 +1,49 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Fri Jul 10 22:33:13 2015
+;; Desktop file format version 208
+;; Emacs version 25.0.50.1
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (21919 55209 560209 733000) (desktop . "208") "z@z" nil nil ((((font-backend xft x) (font . "-unknown-Ubuntu Mono-normal-normal-normal-*-20-*-*-*-m-0-iso10646-1") (font-parameter) (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars) (horizontal-scroll-bars) (foreground-color . "#c5c8c6") (background-color . "#1d1f21") (mouse-color . "black") (border-color . "#373b41") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 0) (scroll-bar-height . 0) (alpha) (fullscreen) (display-type . color) (background-mode . dark) (cursor-color . "#cc6666") (sticky) (environment) (frameset--id . "6B09-198D-812D-E06E") (frameset--mini t . t) (height . 35) (width . 80) (modeline . t) (minibuffer . t) (unsplittable) (left . 1094) (top . 284) (icon-name) (visibility . t) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 4) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 84) (min-pixel-width . 100) (min-pixel-height-ignore . 63) (min-pixel-width-ignore . 40) (min-pixel-height-safe . 21) (min-pixel-width-safe . 20)) leaf (pixel-width . 816) (pixel-height . 714) (total-width . 81) (total-height . 34) (normal-height . 1.0) (normal-width . 1.0) (buffer "makefile" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 0 t nil 0 t) (vscroll . 0) (dedicated) (point . 202) (start . 1))))])
+(setq comint-input-ring nil)
+(setq compile-history nil)
+(setq desktop-missing-file-warning nil)
+(setq extended-command-history '("linum-mode" "color-theme-sanityinc-tomorrow-night"))
+(setq face-name-history nil)
+(setq file-name-history '("~/Cpp_homework/shixun/stage2/14331401/src/makefile" "/home/z/Cpp_homework/shixun/stage2/14331401/src/AgendaUI.h" "/home/z/Cpp_homework/shixun/stage2/14331401/src/AgendaService.cpp" "/home/z/Cpp_homework/shixun/stage2/14331401/src/AgendaUI.cpp" "~/Cpp_homework/shixun/stage2/14331401/src/test.cpp" "~/.emacs.d/lisp/init-auto-complete.el" "~/shixun/stage2/14331401/src/User.h" "~/shixun/stage2/14331401/src/Meeting.h" "~/code/stage3/13331161_linyuxin_stage3_v0/13331161_linyuxin/src/AgendaService.cpp" "~/code/stage3/13331161_linyuxin_stage3_v0/13331161_linyuxin/src/Storage.cpp" "~/shixun/stage2/14331401/src/Storage.cpp" "~/shixun/stage2/14331401/src/AgendaService.h" "~/shixun/stage2/14331401/src/Storage.h" "~/shixun/stage2/14331401/src/Date.h" "~/shixun/stage2/14331401/src/AgendaService.cpp" "~/Cpp_homework/shixun/stage2/14331401/src/Storage.cpp" "~/Cpp_homework/shixun/stage2/14331401/src/AgendaService.cpp" "~/Cpp_homework/shixun/stage2/14331401/src/AgendaUI.h" "~/Cpp_homework/shixun/stage2/14331401/src/Agenda.cpp" "~/Cpp_homework/shixun/stage2/14331401/src/AgendaUI.cpp" "/home/z/Cpp_homework/shixun/stage2/14331401/src/Agenda.cpp" "/home/z/shixun/stage2/14331401/src/Date.h" "/home/z/shixun/stage2/14331401/src/Storage.h" "/home/z/shixun/stage2/14331401/src/AgendaService.h" "/home/z/shixun/stage2/14331401/src/AgendaService.cpp" "/home/z/shixun/stage2/14331401/src/Storage.cpp" "/home/z/code/stage3/13331161_linyuxin_stage3_v0/13331161_linyuxin/src/Storage.cpp" "/home/z/shixun/stage2/14331401/src/Meeting.h" "/home/z/shixun/stage2/14331401/src/User.h" "~/.emacs.d/custom.el" "~/.emacs.d/org-clock-save.el"))
+(setq grep-find-history nil)
+(setq grep-history nil)
+(setq ido-buffer-history nil)
+(setq ido-last-directory-list nil)
+(setq ido-work-directory-list nil)
+(setq ido-work-file-list nil)
+(setq minibuffer-history nil)
+(setq org-clock-history nil)
+(setq org-refile-history nil)
+(setq org-tags-history nil)
+(setq query-replace-history nil)
+(setq read-expression-history nil)
+(setq regexp-history nil)
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq search-ring nil)
+(setq shell-command-history nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "/home/z/Cpp_homework/shixun/stage2/14331401/src/makefile"
+  "makefile"
+  'makefile-gmake-mode
+  '(anzu-mode global-auto-revert-mode whitespace-cleanup-mode undo-tree-mode whole-line-or-region-mode hes-mode guide-key-mode auto-compile-on-load-mode flycheck-mode goto-address-prog-mode paredit-everywhere-mode bug-reference-prog-mode diff-hl-mode highlight-symbol-mode)
+  202
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
